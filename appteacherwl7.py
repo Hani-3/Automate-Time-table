@@ -496,7 +496,7 @@ def create_timetable(courses, teachers, credit_points, time_slots, subject_with_
         # except Exception as e:
         #     logging.info("Failed to create timetable")
         #     raise CustomException(e, sys)
-        
+               
             
             return timetable
         except ValueError:
