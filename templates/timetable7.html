@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .time-slot {
+            font-weight: bold;
+        }
+
+        .actions {
+            position: relative;
+            margin-top: 20px;
+        }
+
+        .download-btn {
+            position: absolute;
+            right: 0;
+            bottom: -40px;
+            /* Adjust as needed */
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .download-btn:hover {
+            background-color: #45a049;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Selected Courses Timetable</h1>
+    {% for course in selected_courses %}
+    <h2>{{ course }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th class="time-slot">Time Slots</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for time_slot in timetable[course]['time_slots'] %}
+            <tr>
+                <td class="time-slot">{{ time_slot }}</td>
+                <td>{{ timetable[course]['Monday'][loop.index0] if loop.index0 < timetable[course]['Monday']|length
+                        else '' }}</td>
+                <td>{{ timetable[course]['Tuesday'][loop.index0] if loop.index0 < timetable[course]['Tuesday']|length
+                        else '' }}</td>
+                <td>{{ timetable[course]['Wednesday'][loop.index0] if loop.index0 <
+                        timetable[course]['Wednesday']|length else '' }}</td>
+                <td>{{ timetable[course]['Thursday'][loop.index0] if loop.index0 < timetable[course]['Thursday']|length
+                        else '' }}</td>
+                <td>{{ timetable[course]['Friday'][loop.index0] if loop.index0 < timetable[course]['Friday']|length
+                        else '' }}</td>
+                <td>{{ timetable[course]['Saturday'][loop.index0] if loop.index0 < timetable[course]['Saturday']|length
+                        else '' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="actions">
+        <a href="{{ url_for('export_timetable', course=course) }}" class="download-btn">Download as Excel</a>
+        <a href="{{ url_for('index') }}" class="btn">Back to Courses </a>
+    </div>
+    {% endfor %}
+    <p>
+        <a href="{{ url_for('teacher_workload_view') }}" class="btn">View Teacher Workload</a>
+    </p>
+</body>
+
+</html>

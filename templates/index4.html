@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Courses</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome for icons -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .course-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .course-card {
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 15px;
+            padding: 20px;
+            text-align: center;
+            width: 200px;
+            /* Adjust width as needed */
+            height: 250px;
+            /* Set a fixed height for cards */
+            color: white;
+            position: relative;
+        }
+
+        .course-card h2 {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 5px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 40px;
+            left: 10px;
+            right: 10px;
+            text-align: center;
+        }
+
+        .course-card label {
+            background: rgba(65, 45, 45, 0.6);
+            padding: 5px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            text-align: center;
+        }
+
+        .checkbox input {
+            margin-right: 5px;
+        }
+
+        .select-all-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Available Courses</h1>
+    <form action="{{ url_for('get_timetable') }}" method="POST">
+        <div class="course-container">
+            {% for course in course_list %}
+            <div class="course-card"
+                style="background-image: url('{{ url_for('static', filename='images/' + course + '.jpg') }}');">
+                <h2>{{ course }}</h2>
+                <label class="checkbox">
+                    <input type="checkbox" name="selected_courses" value="{{ course }}" class="course-checkbox">
+                    Select Course
+                </label>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="select-all-container">
+            <label>
+                <input type="checkbox" id="select-all"> Select All
+            </label>
+        </div>
+
+        <div class="button-container">
+            <button type="submit">Submit Selected Courses</button>
+        </div>
+    </form>
+
+    <!-- Add the "Select All" script here -->
+    <script>
+        document.getElementById('select-all').addEventListener('change', function () {
+            const isChecked = this.checked;
+            const checkboxes = document.querySelectorAll('.course-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+    </script>
+</body>
+
+</html>
